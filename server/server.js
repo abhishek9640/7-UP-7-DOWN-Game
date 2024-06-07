@@ -1,46 +1,55 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 5000;
 
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/7up7downGame', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.error('Error connecting to MongoDB', err);
-});
+let points = 5000;
 
-const gameSchema = new mongoose.Schema({
-  points: Number,
-  choice: String,
-  bet: Number
-});
+app.post('/roll-dice', (req, res) => {
+  const { betAmount, betType } = req.body;
 
-const Game = mongoose.model('Game', gameSchema);
+  const die1 = Math.floor(Math.random() * 6) + 1;
+  const die2 = Math.floor(Math.random() * 6) + 1;
+  const total = die1 + die2;
 
-app.get('/', (req, res) => {
-  res.send('7 Up 7 Down Game API');
-});
+  let result = 'lose';
+  let multiplier = 0;
 
-app.post('/rollDice', async (req, res) => {
-  try {
-    const { points, choice, bet } = req.body;
-    const newGame = new Game({ points, choice, bet });
-    await newGame.save();
-    res.json(newGame);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+  if (total < 7 && betType === '7down') {
+    result = 'win';
+    multiplier = 2;
+  } else if (total > 7 && betType === '7up') {
+    result = 'win';
+    multiplier = 2;
+  } else if (total === 7 && betType === '7') {
+    result = 'win';
+    multiplier = 5;
   }
+
+  if (result === 'win') {
+    points += betAmount * multiplier;
+  } else {
+    points -= betAmount;
+  }
+
+  res.json({
+    die1,
+    die2,
+    total,
+    result,
+    points,
+  });
+});
+
+app.get('/points', (req, res) => {
+  res.json({ points });
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
