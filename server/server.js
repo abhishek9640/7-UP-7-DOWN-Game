@@ -3,14 +3,14 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 let points = 5000;
 
-app.post('/api/roll-dice', (req, res) => {
+app.post('/roll-dice', (req, res) => {
   const { betAmount, betType } = req.body;
 
   const die1 = Math.floor(Math.random() * 6) + 1;
@@ -46,10 +46,10 @@ app.post('/api/roll-dice', (req, res) => {
   });
 });
 
-app.get('/api/points', (req, res) => {
+app.get('/points', (req, res) => {
   res.json({ points });
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
