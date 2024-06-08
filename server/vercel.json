@@ -2,14 +2,29 @@
     "version": 2,
     "builds": [
       {
-        "src": "server.js",
+        "src": "server/server.js",
         "use": "@vercel/node"
+      },
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "client/build"
+        }
       }
     ],
     "routes": [
       {
+        "src": "/api/roll-dice",
+        "dest": "/server/server.js"
+      },
+      {
+        "src": "/api/points",
+        "dest": "/server/server.js"
+      },
+      {
         "src": "/(.*)",
-        "dest": "/server.js"
+        "dest": "/client/build/index.html"
       }
     ]
   }

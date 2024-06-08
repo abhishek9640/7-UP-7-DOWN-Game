@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 let points = 5000;
 
-app.post('/roll-dice', (req, res) => {
+app.post('/api/roll-dice', (req, res) => {
   const { betAmount, betType } = req.body;
 
   const die1 = Math.floor(Math.random() * 6) + 1;
@@ -46,7 +46,7 @@ app.post('/roll-dice', (req, res) => {
   });
 });
 
-app.get('/points', (req, res) => {
+app.get('/api/points', (req, res) => {
   res.json({ points });
 });
 
