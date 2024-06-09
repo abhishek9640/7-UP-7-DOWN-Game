@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Typography, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 
 const App = () => {
   const [points, setPoints] = useState(5000);
