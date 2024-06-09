@@ -48,7 +48,7 @@ export const {
 export const rollDice = (gameData) => async (dispatch) => {
   dispatch(rollDiceStart());
   try {
-    const response = await axios.post('http://localhost:5000/rollDice', gameData);
+    const response = await axios.post('https://7-up-7-down-game.vercel.app/rollDice', gameData);
     dispatch(rollDiceSuccess(response.data));
   } catch (error) {
     dispatch(rollDiceFailure(error.message));

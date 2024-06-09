@@ -12,14 +12,14 @@ const App = () => {
 
   useEffect(() => {
     const fetchPoints = async () => {
-      const response = await axios.get('http://localhost:5000/points');
+      const response = await axios.get('https://7-up-7-down-game.vercel.app/points');
       setPoints(response.data.points);
     };
     fetchPoints();
   }, []);
 
   const handleRollDice = async () => {
-    const response = await axios.post('http://localhost:5000/roll-dice', {
+    const response = await axios.post('https://7-up-7-down-game.vercel.app/roll-dice', {
       betAmount,
       betType,
     });
